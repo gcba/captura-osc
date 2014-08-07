@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+        <script src='libs/jquery-1.11.1.min.js'></script>
+
+
+        <script>
+            var socket = io.connect('//localhost:3000');
+            var mensajesTotal = 0;
+
+
+            // captura el mensaje por socket.io y muestro sus valores.
+			socket.on('message', function (message) {
+				mensajesTotal++;                    // cant total de mensajes recibidos
+				var sensor = message.split(",")[0]; // nombre del sensor
+				var valor = message.split(",")[1];  // valor del sensor
+
+                $("#mensajesTotal").html(mensajesTotal); 
+                
+                if (sensor === "/sensor_0"){ 
+                    $("#sensor").html(sensor);
+                    $("#valor").html(valor);
+                }
+			});
+        </script>
+    </head>
+    
+    <body>
+        <h1>SENSOR DE LUZ</h1>
+        Total Mensajes:<span id="mensajesTotal">s/d</span><br>
+        Sensor: <span id="sensor">s/d</span><br>
+        Valor: <span id="valor">s/d</span>
+    </body>
+</html>
+
+
