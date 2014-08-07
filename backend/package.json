@@ -1,0 +1,15 @@
+{
+  "name": "captura-osc",
+  "version": "1.0.0",
+  "description": "Prototipo de test para capturar SensoresOSC",
+  "repository": "https://github.com/nlound/captura-osc.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristian Reynaga, Nicolás Lound, David Galavotti",
+  "license": "MIT",
+  "devDependencies": {
+    "node-osc": "~0.2.1",
+    "socket.io": "~0.9.16"
+  }
+}
