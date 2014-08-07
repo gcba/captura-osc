@@ -34,6 +34,9 @@ int end=10;
 String serial;
 Serial port;
 
+
+int fps=5;
+
 //Variables para mensajes OSC
 int ARRAY_SIZE=4;
 boolean[] flags=new boolean[ARRAY_SIZE];
@@ -119,6 +122,7 @@ void draw() {
   ellipseMode(CENTER);
   smooth();
   noStroke();
+  frameRate(fps);
 
   //Mientras lleguen datos desde puerto Serie los ordeno para poder leerlos correctamente
   while (port.available ()>0) {
