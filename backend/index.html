@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+        <script src='http://10.200.183.20:3000/socket.io/socket.io.js'></script>
+        <!-- para produccion usar localhost
+            <script src='http://127.0.0.1:3000/socket.io/socket.io.js'></script>
+        -->
         <script>
-            var socket = io.connect('//localhost:3000');
-            var mensajesTotal = 0;
+            var socket = io.connect('//10.200.183.20:3000'); // var socket = io.connect('//localhost:3000');
+
+            mensajesTotal = 0;
     		socket.on('message', function (message) {
 				mensajesTotal++;
-                document.getElementById("mensaje").innerHTML = "Mensaje nro:" + mensajesTotal + " - " + message;
-
-                
+                document.getElementById("mensaje").innerHTML = "Mensaje nro:" + mensajesTotal + "<br>" + message;
 			});
         </script>
+        <style>
+            #mensaje {
+                font-size: 3em;
+            }
+        </style>
     </head>
     
     <body>
-        Ultimo mensaje recibido:<br>
         <span id="mensaje">-</span>
     </body>
 </html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Linterna</title>
+        <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
+        <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
+        <script src='libs/d3.v3.min.js' type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="css/presentacion.css" />
+        <script>
+            var socket = io.connect('//localhost:3000');
+            var max = 600;
+        </script>
+
+        <style type="text/css">
+            html, body{
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+
+
+    </head>
+    
+    <body>
+
+        <script>
+
+            var datos = new Array(20);
+            socket.on('message', function (message) {
+                if (message.split(",")[0] === "/sensor_0"){ 
+                    datos.push(message.split(",")[1]);
+                    datos.shift();
+                }
+            });
+
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width", 300)
+                .attr("height", 300);
+
+            var circulo = svg
+                .append("circle")
+                .attr("cx", 150)
+                .attr("cy", 150)
+                .attr("fill", "white")
+                .attr("stroke", "black")
+                .attr("opacity", ".5")
+                .attr("r", 100);
+
+        </script>
+
+
+
+    <script>
+        var socket = io.connect('//localhost:3000');
+        socket.on('message', function (message) {
+            if (message.split(",")[0] === "/sensor_0"){
+               update(message.split(",")[1]);
+            }
+        });
+
+        function update(num){
+
+            if (num > max) { max = num; }
+
+            var opacidad = d3.scale.linear().domain([0, max]).range([1, 0]);
+
+            circulo.attr("opacity", function (){
+                return opacidad(num);
+            });
+        }
+    </script>
+
+    </body>
+</html>
+
+

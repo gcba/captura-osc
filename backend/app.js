@@ -1,4 +1,4 @@
-var IP = "127.0.0.1";
+var IP = "localhost";
 var PORT = 3000; 
 var http = require('http'),
 	fs = require('fs'),
