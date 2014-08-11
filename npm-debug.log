@@ -1,0 +1,85 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'sasll' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.30
+4 verbose cache add [ 'sasll', null ]
+5 verbose cache add name=undefined spec="sasll" args=["sasll",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'sasll',
+6 verbose parsed url   path: 'sasll',
+6 verbose parsed url   href: 'sasll' }
+7 silly lockFile 4ccfc075-sasll sasll
+8 verbose lock sasll C:\Users\Zaicolainen\AppData\Roaming\npm-cache\4ccfc075-sasll.lock
+9 silly lockFile 4ccfc075-sasll sasll
+10 silly lockFile 4ccfc075-sasll sasll
+11 verbose addNamed [ 'sasll', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 6d1fe85d-sasll sasll@
+14 verbose lock sasll@ C:\Users\Zaicolainen\AppData\Roaming\npm-cache\6d1fe85d-sasll.lock
+15 silly addNameRange { name: 'sasll', range: '*', hasData: false }
+16 verbose request where is /sasll
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id e43d7874c3213197
+19 verbose url raw /sasll
+20 verbose url resolving [ 'https://registry.npmjs.org/', './sasll' ]
+21 verbose url resolved https://registry.npmjs.org/sasll
+22 verbose request where is https://registry.npmjs.org/sasll
+23 info trying registry request attempt 1 at 22:14:07
+24 http GET https://registry.npmjs.org/sasll
+25 http 404 https://registry.npmjs.org/sasll
+26 verbose headers { date: 'Mon, 11 Aug 2014 01:14:08 GMT',
+26 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 verbose headers   'content-type': 'application/json',
+26 verbose headers   'cache-control': 'max-age=0',
+26 verbose headers   'content-length': '52',
+26 verbose headers   'accept-ranges': 'bytes',
+26 verbose headers   via: '1.1 varnish',
+26 verbose headers   age: '0',
+26 verbose headers   'x-served-by': 'cache-iad2129-IAD',
+26 verbose headers   'x-cache': 'MISS',
+26 verbose headers   'x-cache-hits': '0',
+26 verbose headers   'x-timer': 'S1407719648.438554,VS0,VE100',
+26 verbose headers   'keep-alive': 'timeout=10, max=50',
+26 verbose headers   connection: 'Keep-Alive' }
+27 silly registry.get cb [ 404,
+27 silly registry.get   { date: 'Mon, 11 Aug 2014 01:14:08 GMT',
+27 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     'cache-control': 'max-age=0',
+27 silly registry.get     'content-length': '52',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-iad2129-IAD',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1407719648.438554,VS0,VE100',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 silly lockFile 6d1fe85d-sasll sasll@
+29 silly lockFile 6d1fe85d-sasll sasll@
+30 error 404 404 Not Found: sasll
+30 error 404
+30 error 404 'sasll' is not in the npm registry.
+30 error 404 You should bug the author to publish it
+30 error 404
+30 error 404 Note that you can also install from a
+30 error 404 tarball, folder, or http url, or git url.
+31 error System Windows_NT 6.1.7601
+32 error command "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "sasll"
+33 error cwd C:\Users\Zaicolainen\Dropbox\GitHub\sensores-osc
+34 error node -v v0.10.30
+35 error npm -v 1.4.21
+36 error code E404
+37 verbose exit [ 1, true ]
