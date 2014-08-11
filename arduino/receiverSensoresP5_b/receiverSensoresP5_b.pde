@@ -35,7 +35,7 @@ String serial;
 Serial port;
 
 
-int fps=5;
+int fps=30;
 
 //Variables para mensajes OSC
 int ARRAY_SIZE=4;
@@ -91,7 +91,7 @@ int elapsedTime=15000;
 void setup() {
   size(150, 150);
   println(Serial.list());
-  port=new Serial(this, Serial.list()[0], 115200 );
+  port=new Serial(this, Serial.list()[1], 115200 );
   port.clear();
   serial=port.readStringUntil(end);
   serial=null;
