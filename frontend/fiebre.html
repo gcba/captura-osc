@@ -11,8 +11,8 @@
         var socket = io.connect('//localhost:3000');
 
         //vars del gráfico
-        var width = $(window).width() - 10;
-        var height = $(window).height() - 10;
+        var width = $(window).width();
+        var height = $(window).height();
         var n = 50, // cantidad de ticks en X
             data = d3.range(n);
         var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -42,6 +42,11 @@
             stroke-width: 10px;
         }
 
+        .axis {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
     </style>
 </head>
 
@@ -51,12 +56,12 @@
 
     <script>
         var x = d3.scale.linear()
-            .domain([1, n - 2])
-            .range([0, width]);
+            .domain([ 1 , n - 2 ])
+            .range([ 0 , width ]);
 
         var y = d3.scale.linear()
-            .domain([0, 1])
-            .range([height, 0]);
+            .domain([ 0 , max ])
+            .range([ 0 , height ]);
 
         var line = d3.svg.line()
             .interpolate("basis")
@@ -64,12 +69,12 @@
             .y(function(d, i) { return y(d); });
 
         var svg = d3.select("#fiebre").append("svg")
-        .attr("width", '100%')
-        .attr("height", '100%')
-        .attr('viewBox','0 0 '+Math.max(width,height) +' '+Math.min(width,height) )
-        .attr('preserveAspectRatio','xMidYMid') //none para streched
-        .append("g")
-        .attr("transform", "translate(" + Math.min(width,height) /1000 + "," + Math.min(height,width) /1000 + ")");
+            .attr("width", '100%')
+            .attr("height", '100%')
+            .attr('viewBox','-50 0 '+Math.max(width,height) +' '+Math.min(width,height) )
+            .attr('preserveAspectRatio','xMidYMid') //none para streched
+            .append("g")
+            .attr("transform", "translate(" + Math.min(width,height) /1000 + "," + Math.min(height,width) /1000 + ")");
 
         svg.append("defs").append("clipPath")
             .attr("id", "clip")
@@ -91,13 +96,30 @@
             .attr("dy", width / 3)
             .attr("dx", height / 1.5);
 
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(d3.svg.axis().scale(y).orient("left"));
+
         // listener de mensajes de socket.io
         socket.on('message', function (message) {
 
             // solo proceso los mensajes del /sensor_0
             if (message.split(",")[0] === "/sensor_0"){
-                if (max < message.split(",")[1]){max = message.split(",")[1];}
-                var rango = d3.scale.linear().domain([0, max]).range([1, 0.2]);
+
+                if (max < parseInt(message.split(",")[1]) ){
+                    max = parseInt( message.split(",")[1] ) ;
+
+                    //actualizo eje Y con el nuevo máximo
+                    y = d3.scale.linear()
+                        .domain([ 0 , max ])
+                        .range([ 0 , height ]);
+
+                    //call sin transicion porque va tan rapido que se pierde
+                    svg.select(".y")
+                        .call(d3.svg.axis().scale(y).orient("left"));
+                }
+
+                var rango = d3.scale.linear().domain([0, max]).range([ 0.2 , max]);
                 data.push(rango (message.split(",")[1]) );
 
                 // redibuja y corre la linea
@@ -115,28 +137,7 @@
                 // actualizo el texto con el valor actual
                 svg.select("text")
                     .text(function () {
-                        // una vez revisadas Vcc y Res pasan a ser variables de configuraciónm
-                        var Vcc = 5; 
-                        var Res = 10000;
-
-                        var Vin = rango (message.split(",")[1]);
-
-                        /*
-
-                        por las dudas (y temporalmente) pongo la conversión de volts a luxes para el LDR
-
-                        Vo = Vcc(R/(R+Vin)) que sería Vo los luxes, Vcc son 5v en nuestro circuito y no se modifica,
-
-                        R sería 10.000 (el valor provisorio de nuestra resistencia) y
-                        Vin es el valor de nuestro sensor, q va de 0-1023
-                        
-                        */
-
-                        var total = Res + Vin;  //la cuenta esta separada asi porque me da cualquier num :S
-                            total = total / Res;
-                            total = total * Vcc;
-
-                        return (rango(message.split(",")[1]) * 100).toFixed(1);
+                        return (message.split(",")[1]);
 
                 } );
 
