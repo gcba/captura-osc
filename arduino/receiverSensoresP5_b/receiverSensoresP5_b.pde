@@ -34,6 +34,10 @@ int end=10;
 String serial;
 Serial port;
 
+//Variables conversión a lux
+double lux;
+float LDR;
+float ajuste=1023.0;
 
 int fps=30;
 
@@ -135,8 +139,15 @@ void draw() {
     String[]arduino=split(serial, ',');
 
     for (int i=0; i<m.length; i++) {
-      m [i] = Integer.parseInt(arduino[i]);
+      m[i] = Integer.parseInt(arduino[i]);
+      
+      float ldr=float(ajuste-m[i]);
+      float lux=(2500/(ldr*0.00488)-500)/10);
+      
+     
+      m[i]= int(lux);
       //Declaro los tags de los mensajes OSC
+      
       println("sensor "+i+":"+m[i]);
 
       OscMessage myMessage0 = new OscMessage("/sensor_0");
