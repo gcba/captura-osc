@@ -37,7 +37,7 @@ Serial port;
 //Variables conversión a lux
 double lux;
 float LDR;
-float ajuste=1023.0;
+float ajuste=0.0;
 
 int fps=30;
 
@@ -142,8 +142,9 @@ void draw() {
     for (int i=0; i<m.length; i++) {
       m[i] = Integer.parseInt(arduino[i]);
       
-      float ldr=float(ajuste-m[i]);
-      float lux=(2500/(ldr*0.00488)-500)/10);
+      //float ldr=ajuste-m[i];
+      float ldr=m[i];
+      float lux=(2500/(ldr*0.00488)-500)/10.0;
       
      
       m[i]= int(lux);
