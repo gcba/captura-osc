@@ -38,6 +38,7 @@ Serial port;
 double lux;
 float LDR;
 float ajuste=0.0;
+float Res0=10.0;
 
 int fps=30;
 
@@ -141,15 +142,16 @@ void draw() {
 
     for (int i=0; i<m.length; i++) {
       m[i] = Integer.parseInt(arduino[i]);
-      
-      //float ldr=ajuste-m[i];
+
       float ldr=m[i];
-      float lux=(2500/(ldr*0.00488)-500)/10.0;
-      
-     
+      float Vout0=ldr*0.0048828125;      // calculate the voltage
+      float lux=500/(Res0*((5-Vout0)/Vout0));
+
+
+
       m[i]= int(lux);
       //Declaro los tags de los mensajes OSC
-      
+
       println("sensor "+i+":"+m[i]);
 
       OscMessage myMessage0 = new OscMessage("/sensor_0");
@@ -178,8 +180,6 @@ void draw() {
       oscP5.send(myMessage3, myRemoteLocation1);
       oscP5.send(myMessage3, myRemoteLocation2);
       oscP5.send(myMessage3, myRemoteLocation3);
-
- 
     }
   }
 }
