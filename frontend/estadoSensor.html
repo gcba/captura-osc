@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="css/presentacion.css" />
         <script>
             var socket = io.connect('//localhost:3000');
-            var max = 600;
+            var max = 1000;
         </script>
 
         <style type="text/css">
@@ -63,7 +63,7 @@
 
             if (num > max) { max = num; }
 
-            var opacidad = d3.scale.linear().domain([0, max]).range([1, 0]);
+            var opacidad = d3.scale.linear().domain([0, max]).range([0,1]);
 
             circulo.attr("opacity", function (){
                 return opacidad(num);
