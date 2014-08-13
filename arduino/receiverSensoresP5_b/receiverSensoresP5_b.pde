@@ -145,7 +145,7 @@ void draw() {
 
       float ldr=m[i];
       float Vout0=ldr*0.0048828125;      // calculate the voltage
-      float lux=500/(Res0*((5-Vout0)/Vout0));
+      float lux=1023-(500/(Res0*((5-Vout0)/Vout0)));
 
 
 
