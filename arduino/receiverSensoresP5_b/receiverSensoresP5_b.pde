@@ -143,13 +143,7 @@ void draw() {
     for (int i=0; i<m.length; i++) {
       m[i] = Integer.parseInt(arduino[i]);
 
-      float ldr=m[i];
-      float Vout0=ldr*0.0048828125;      // calculate the voltage
-      float lux=1023-(500/(Res0*((5-Vout0)/Vout0)));
 
-
-
-      m[i]= int(lux);
       //Declaro los tags de los mensajes OSC
 
       println("sensor "+i+":"+m[i]);
