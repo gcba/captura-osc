@@ -1,6 +1,12 @@
 SENSORES OSC
 ============
 
+Envío datos:
+/sensor_0: temperatura
+/sensor_1: humedad
+/sensor_2: sonido
+/sensor_3: luz
+
 #### v0.0.1 Requisitos
 
 ### Hardware:
