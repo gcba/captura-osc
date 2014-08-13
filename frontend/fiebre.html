@@ -7,6 +7,7 @@
     <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
     <script src='libs/d3.v3.min.js' type="text/javascript" charset="utf-8"></script>
     <script>
+        var contador = 0;
         var max = 512;
         var socket = io.connect('//localhost:3000');
 
@@ -103,6 +104,19 @@
         // listener de mensajes de socket.io
         socket.on('message', function (message) {
 
+
+
+            if (contador < n){
+                contador++
+            }else{
+
+            }
+
+
+
+
+
+
             // solo proceso los mensajes del /sensor_0
             if (message.split(",")[0] === "/sensor_0"){
 
@@ -113,15 +127,16 @@
                     if (max > 512){
                         max = max - 1;
                 }
-                    //actualizo eje Y con el nuevo máximo
-                    y = d3.scale.linear()
-                        .domain([ 0 , max ])
-                        .range([ 0 , height ]);
 
-                    //call sin transicion porque va tan rapido que se pierde
-                    svg.select(".y")
-                        .call(d3.svg.axis().scale(y).orient("left"));
-                    }
+                //actualizo eje Y con el nuevo máximo
+                y = d3.scale.linear()
+                    .domain([ 0 , max ])
+                    .range([ 0 , height ]);
+
+                //call sin transicion porque va tan rapido que se pierde
+                svg.select(".y")
+                    .call(d3.svg.axis().scale(y).orient("left"));
+                }
 
 
 
