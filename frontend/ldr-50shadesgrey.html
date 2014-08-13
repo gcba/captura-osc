@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>LDR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
+    <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
+    <script src='libs/d3.v3.min.js' type="text/javascript" charset="utf-8"></script>
+    <style>
+        html {
+            -webkit-font-smoothing: subpixel-antialiased;
+              overflow: hidden;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: #f2f2f2;
+        }
+
+        #ldr{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+    </style>    
+</head>
+<body>
+    <svg id="ldr"></svg>
+
+
+
+    <script>
+
+        var socket,
+            margin = 60,
+            width = parseInt(d3.select("#ldr").style("width")) - margin * 2,
+            height = parseInt(d3.select("#ldr").style("height")) - margin * 2,
+            graph,
+            ldrMax,
+            ldrData = [];
+
+
+        socket = io.connect('//localhost:3000');
+
+        graph = d3.select("#ldr")
+                .attr("shape-rendering","optimizeSpeed")
+                .attr("color-rendering","optimizeSpeed");
+
+        ldrMax = 2000;
+
+        socket.on('message', function (ldrSensor) {
+
+            ldrData = ldrSensor.split(",")[1];
+            
+            var colorScale = d3.scale.linear().domain([0, ldrMax]).range(["black", "white"]);
+
+            console.log(ldrData);
+
+            graph
+            .datum(ldrData)
+            .transition()
+            .style('background-color',function(d) { return colorScale(d); });
+
+
+        });
+
+
+
+    </script>
+
+</body>
+</html>
