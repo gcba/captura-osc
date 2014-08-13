@@ -2,20 +2,20 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>Sensor: Luz</title>
+    <title>Sensor: Sonido</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
     <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
     <script src='libs/d3.v3.min.js' type="text/javascript" charset="utf-8"></script>
     <script>
-        var MAXIMO = 4001; // const: maximo de valor
+        var MAXIMO = 201; // const: maximo de valor
         var max = MAXIMO; // var: maximo de escala normal
         var socket = io.connect('//localhost:3000');
 
         //vars del gráfico
         var width = $(window).width();
         var height = $(window).height();
-        var n = 50, // cantidad de ticks en X
+        var n = 5000, // cantidad de ticks en X
             data = d3.range(n);
         var margin = {top: 0, right: 0, bottom: 0, left: 0};
     </script>
@@ -63,7 +63,7 @@
 
         var y = d3.scale.linear()
             .domain([ 0 , max ])
-            .range([ height , 0  ]);
+            .range([ 0 , height ]);
 
         var line = d3.svg.line()
             .interpolate("basis")
@@ -104,8 +104,8 @@
 
         // listener de mensajes de socket.io
         socket.on('message', function (message) {
-            // solo proceso los mensajes del /sensor_3
-            if (message.split(",")[0] === "/sensor_3"){ // /sensor_3: luz
+            // solo proceso los mensajes del /sensor_2
+            if (message.split(",")[0] === "/sensor_2"){ // /sensor_2: sonido
 
                 if (max < parseInt(message.split(",")[1]) ){
                     max = parseInt( message.split(",")[1] ) ;
@@ -115,7 +115,7 @@
                     }
                     //actualizo eje Y con el nuevo máximo
                     y = d3.scale.linear()
-                        .domain([ max , 0 ])
+                        .domain([ 0 , max ])
                         .range([ 0 , height ]);
 
                     //call sin transicion porque va tan rapido que se pierde
@@ -123,7 +123,7 @@
                         .call(d3.svg.axis().scale(y).orient("left"));
                 }
 
-                var rango = d3.scale.linear().domain([ max , 0 ]).range([ max , 0.2 ]);
+                var rango = d3.scale.linear().domain([ 0, max ]).range([  0.2 , max ]);
                 data.push(rango (message.split(",")[1]) );
 
                 // redibuja y corre la linea
@@ -131,7 +131,6 @@
                     .attr("d", line)
                     .attr("transform", null)
                     .transition()
-                    .duration(500)
                     .ease("linear")
                     .attr("transform", "translate(" + x(0) + ",0)");
 
