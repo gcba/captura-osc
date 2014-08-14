@@ -49,21 +49,23 @@
                 .attr("shape-rendering","optimizeSpeed")
                 .attr("color-rendering","optimizeSpeed");
 
-        ldrMax = 2000;
+        ldrMax = 100;
 
         socket.on('message', function (ldrSensor) {
 
-            ldrData = ldrSensor.split(",")[1];
-            
-            colorScale = d3.scale.linear().domain([0, ldrMax]).range(["green", "white"]);
+            if (ldrSensor.split(",")[0] === "/sensor_3"){
+                ldrData = ldrSensor.split(",")[1];
+                
+                colorScale = d3.scale.linear().domain([0, ldrMax]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
 
-            console.log(ldrData);
+                console.log(ldrData);
 
-            graph
-            .datum(ldrData)
-            .transition()
-            .style('background-color',function(d) { return colorScale(d); });
+                graph
+                .datum(ldrData)
+                .transition()
+                .style('background-color',function(d) { return colorScale(d); });
 
+            }
 
         });
 
