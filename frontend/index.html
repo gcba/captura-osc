@@ -8,72 +8,82 @@
     <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
     <style>
         html, body{
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
+            width: 100%; 
+            font-family: Arial, sans-serif;
             background-color: #f2f2f2;
+            text-align: center;
+            text-rendering: optimizeLegibility;
         }
 
         a {
-            height: 50%;
-            width: 50%;
             text-decoration: none;
-            line-height: 500%;
-            text-align: center;
+            border: 0px none;
+            cursor: pointer;
+            display: inline-block;
+            line-height: 1;
+            background-color: #FFFFFF;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border-radius: 4px;
+            box-shadow: 0px -1px #BBBFC2 inset;
+            color: #4D4E53;
+            width: 90%;
+            height: 90%;
         }
 
-        .UL , .UR , .DL , .DR{
-            position: absolute;
+        a:hover {
+            background-color: #ffff00;
         }
 
-        .UL{ top: 0; left: 0; background-color: #c0c0c0; }
-        .UR{ top: 0; right: 0; background-color: #f0f0f0; }
-        .DL{ bottom: 0; left: 0; background-color: #f0f0f0; }
-        .DR{ bottom: 0; right: 0; background-color: #c0c0c0; }
+        .titular{
+            width: 100%; 
+        }
 
-        #tablero {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 20px;
-            margin-top: -10px;
-            margin-left: -300px;
-            background-color: #ffffff;
+        h1{
+            font-size: 48px;
             text-align: center;
-            border: 1px solid #c0c0c0;
+            line-height: 1px;
+        }
+
+        h2{
+            font-size: 18px;
+            text-align: center;
+            line-height: 0px;
         }
 
         .sensor{
             display: inline-block;
-            padding: 0;
-            margin: 0;
-            width: 22%;
-            text-align: left;
-
+            width: 20%;
+            height: 100px;
         }
+
     </style>
 </head>
 
 <body>
-    <a class="UL" href="sensor-luz.html">luz</a>
-    <a class="UR" href="sensor-sonido.html">sonido</a>
-    <a class="DL" href="sensor-temperatura.html">temperatura</a>
-    <a class="DR" href="sensor-humedad.html">humedad</a>
+    <div id="titular">
+        <h1>
+            Tablero de Control
+        </h1>
+        <h2>
+            Haga <strong>clic</strong> sobre un <strong>dato</strong> para ver el gráfico
+        </h2>
+    </div>
+
+
 
     <div id="tablero">
         <div class="sensor">
-            Luz: <span id="luz"> s/d </span>
+            <a href="sensor-luz.html"> Luz: <span id="luz"> s/d </span> </a>
         </div>
         <div class="sensor">
-            Sonido: <span id="sonido">s/d</span>
+            <a href="sensor-sonido.html"> Sonido: <span id="sonido">s/d</span></a>
         </div>
         <div class="sensor">
-            Temperatura: <span id="temperatura">s/d</span>
+            <a href="sensor-temperatura.html"> Temperatura: <span id="temperatura">s/d</span></a>
         </div>
         <div class="sensor">
-            Humedad: <span id="humedad">s/d</span>
+            <a href="sensor-humedad.html"> Humedad: <span id="humedad">s/d</span></a>
         </div>
     </div>
 
