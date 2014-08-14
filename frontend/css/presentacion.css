@@ -1,3 +1,37 @@
-body{
-	background-color: #c0c0c0;
+html, body{
+    width: 99%;
+    height: 99%;
+    padding: 0;
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
+svg {
+    font: 5em Arial, sans-serif;
+}
+
+g {
+	font: 10px Arial, sans-serif;
+}
+
+.arco{
+    width: 100%;
+    height: 100%;
+}
+
+.fiebre{
+    width: 100%;
+    height: 100%;
+}
+
+.line {
+    fill: none;
+    stroke: #333333;
+    stroke-width: 10px;
+}
+
+.axis {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
