@@ -1,6 +1,7 @@
-var MAXIMO = 4001; // const: maximo de valor
-var max = MAXIMO; // var: maximo de escala normal
 var socket = io.connect('//localhost:3000');
+var MIN = 1; // valor MINIMO del sensor
+var MAX = 4000; // valor MAXIMO del sensor
+var max = MAX; // var: maximo de escala normal
 
 //vars del gráfico
 var width = $(window).width();
@@ -14,7 +15,7 @@ var x = d3.scale.linear()
     .range([ 0 , width ]);
 
 var y = d3.scale.linear()
-    .domain([ 0 , max ])
+    .domain([ MIN , max ])
     .range([ height , 0  ]);
 
 var line = d3.svg.line()
@@ -62,12 +63,12 @@ socket.on('message', function (message) {
         if (max < parseInt(message.split(",")[1]) ){
             max = parseInt( message.split(",")[1] ) ;
         } else {
-            if ( max >= MAXIMO) {
+            if ( max >= MAX) {
                 max--;
             }
             //actualizo eje Y con el nuevo máximo
             y = d3.scale.linear()
-                .domain([ max , 0 ])
+                .domain([ max , MIN ])
                 .range([ 0 , height ]);
 
             //call sin transicion porque va tan rapido que se pierde
@@ -75,7 +76,7 @@ socket.on('message', function (message) {
                 .call(d3.svg.axis().scale(y).orient("left"));
         }
 
-        var rango = d3.scale.linear().domain([ max , 0 ]).range([ max , 0.2 ]);
+        var rango = d3.scale.linear().domain([ max , MIN ]).range([ max , 0.2 ]);
         data.push(rango (message.split(",")[1]) );
 
         // redibuja y corre la linea
@@ -83,7 +84,6 @@ socket.on('message', function (message) {
             .attr("d", line)
             .attr("transform", null)
             .transition()
-            .duration(500)
             .ease("linear")
             .attr("transform", "translate(" + x(0) + ",0)");
 

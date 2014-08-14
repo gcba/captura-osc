@@ -1,6 +1,6 @@
 var socket = io.connect('//localhost:3000');
 var MIN = 0; // valor MINIMO del sensor
-var MAX = 50; // valor MAXIMO del sensor
+var MAX = 40; // valor MAXIMO del sensor
 
 var width = $(window).width();
 var height = $(window).height();
