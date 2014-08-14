@@ -104,6 +104,8 @@
 
         // listener de mensajes de socket.io
         socket.on('message', function (message) {
+
+            console.log(message);
             // solo proceso los mensajes del /sensor_0
             if (message.split(",")[0] === "/sensor_3"){ // /sensor_3: luz
 

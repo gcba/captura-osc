@@ -37,6 +37,7 @@
             margin = 60,
             width = parseInt(d3.select("#ldr").style("width")) - margin * 2,
             height = parseInt(d3.select("#ldr").style("height")) - margin * 2,
+            colorScale,
             graph,
             ldrMax,
             ldrData = [];
@@ -54,7 +55,7 @@
 
             ldrData = ldrSensor.split(",")[1];
             
-            var colorScale = d3.scale.linear().domain([0, ldrMax]).range(["black", "white"]);
+            colorScale = d3.scale.linear().domain([0, ldrMax]).range(["green", "white"]);
 
             console.log(ldrData);
 
