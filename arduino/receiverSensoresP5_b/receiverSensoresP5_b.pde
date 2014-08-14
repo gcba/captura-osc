@@ -45,7 +45,7 @@ int fps=30;
 //Variables para mensajes OSC
 int ARRAY_SIZE=4;
 boolean[] flags=new boolean[ARRAY_SIZE];
-int[] m= new int[ARRAY_SIZE];
+float[] m= new float[ARRAY_SIZE];
 
 /* Variables para mapeo de datos que se envían por OSC y el valor de incremento
  Con estos valores ajusto el rango de los datos y la "velocidad" en que se llega del 
@@ -141,7 +141,7 @@ void draw() {
     String[]arduino=split(serial, ',');
 
     for (int i=0; i<m.length; i++) {
-      m[i] = Integer.parseInt(arduino[i]);
+      m[i] = Float.parseFloat(arduino[i]);
 
 
       //Declaro los tags de los mensajes OSC
