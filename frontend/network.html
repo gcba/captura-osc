@@ -3,9 +3,10 @@
     <meta charset="utf-8">
     <title>LDR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
     <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
     <script src='libs/paper-full.js' type="text/javascript" charset="utf-8"></script>
+    <script src='libs/dat.gui.min.js' type="text/javascript" charset="utf-8"></script>
+    <script src="libs/stats.min.js"></script>
     <style>
         html {
             -webkit-font-smoothing: subpixel-antialiased;
@@ -16,7 +17,7 @@
             height: 100%;
             padding: 0;
             margin: 0;
-            background-color: #f2f2f2;
+            background-color: black;
         }
 
         #ldr{
@@ -27,49 +28,13 @@
     </style>    
 </head>
 <body>
-    <svg id="ldr"></svg>
+    <div id="ldr"></div>
 
 
 
     <script>
 
-        var $ = $ || jQuery, socket, ldrMax, ldrData;
-
-        // var socket,
-        //     margin = 60,
-        //     width = parseInt(d3.select("#ldr").style("width")) - margin * 2,
-        //     height = parseInt(d3.select("#ldr").style("height")) - margin * 2,
-        //     colorScale,
-        //     graph,
-        //     ldrMax,
-        //     ldrData = [];
-
-
-        socket = io.connect('//localhost:3000');
-
-        // graph = d3.select("#ldr")
-        //         .attr("shape-rendering","optimizeSpeed")
-        //         .attr("color-rendering","optimizeSpeed");
-
-        ldrMax = 100;
-
-        socket.on('message', function (ldrSensor) {
-
-            if (ldrSensor.split(",")[0] === "/sensor_3"){
-                ldrData = ldrSensor.split(",")[1];
-                
-                // colorScale = d3.scale.linear().domain([0, ldrMax]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
-
-                // console.log(ldrData);
-
-                // graph
-                // .datum(ldrData)
-                // .transition()
-                // .style('background-color',function(d) { return colorScale(d); });
-
-            }
-
-        });
+        var $ = $ || jQuery, stats;
 
         function Network() {
 
@@ -105,11 +70,31 @@
                 }
             };
 
+            // this.remove = function () {
+            //     var i;
+
+            //     // edge_layer.removeChildren();
+
+            //     for (i = 0; i < edges.length; i += 1) {
+            //         edges[i].remove();
+            //     }
+
+            //     for (i = 0; i < nodes.length; i += 1) {
+            //         nodes[i].remove();
+            //     }
+            // };
+
             this.add_node = function (x, y) {
                 var node = new Node();
                 node.init(x, y);
                 nodes.push(node);
             };
+
+            // this.update_node = function () {
+            //     // console.log('Dude');
+            //     var node = new Node();
+            //     nodes.update();
+            // };
         };
 
         function Edge() {
@@ -131,13 +116,17 @@
                     edge_layer.addChild(line);
                 }
             };
+
+            this.remove = function () {
+                edge_layer.removeChildren();
+            };
         };
 
         function Node() {
             project.activeLayer = node_layer;
 
             var maxSpeed        = Math.random() * 0.5 + 0.5,
-                maxForce        = 0.4,
+                maxForce        = 0.2,
                 angle           = Math.random() * 90,
                 wrapAngle       = (Math.PI / 2) + angle,
                 wanderTheta     = 0,
@@ -145,9 +134,9 @@
                 x = random_int(-offset, view.size.width + offset),
                 y = random_int(-offset, view.size.height + offset);
 
-            this.path           = new Path.Circle({ center: [0, 0], radius: random_int(5, radius) });
+            this.path           = new Path.Circle({ center: [0, 0], radius: random_int(2, radius) });
             this.location       = new Point(x, y);
-            this.velocity       = new Point(Math.random() * 10, Math.random() * 10);
+            this.velocity       = new Point(Math.random() * 10, Math.random() * 50);
             this.acceleration   = new Point(Math.random() * 20, Math.random() * 20);
 
             this.init = function (x, y) {
@@ -166,6 +155,11 @@
                     edge.init(this, nodes[i]);
                     edges.push(edge);
                 }
+            };
+
+            this.remove = function () {
+                node_layer.removeChildren();
+                console.log('This should delete all the nodes.');
             };
 
             this.update = function () {
@@ -260,43 +254,36 @@
             return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         };
 
-        var radius = 8,
+        var radius = 20,
             max_length = 200,
-            node_count = 60,
+            node_count = 150,
             offset = 20,
             nodes = [],
             node_layer,
             node_style = {
-                fillColor: '#000'
+                fillColor: '#ffffff'
             },
             edge_style = {
-                strokeColor: '#000',
-                strokeWidth: 1.5
+                strokeColor: '#ffffff',
+                strokeWidth: 2
             },
             edges = [],
             edge_layer;
 
         $(document).ready(function () {
             var container = $('#ldr'),
-                // overlay = container.find('.overlay'),
                 canvas = $('<canvas id="canvas" resize></canvas>').appendTo(container),
                 content_height = 500,
                 window_height = $(window).outerHeight(),
-                header_height = $('body > header').outerHeight(),
+                header_height = 300,
                 network = new Network();
 
-            if (!container.length) {
-                return false;
-            }
 
-            // Allow scrolling on small windows
-            if (content_height > (window_height - header_height)) {
-                container.height(content_height);
-            } else {
-                container.height(window_height - header_height);
-            }
 
             network.init();
+
+
+            
 
             // overlay.click(function() {
             //     $(this).fadeOut(250, function() {
@@ -308,6 +295,34 @@
             //     network.add_node(e.clientX, e.clientY - 102);
             // });
         });
+
+        window.onload = function() {
+
+            node = new Node();
+            edge = new Edge();
+
+            var gui = new dat.GUI();
+                gui.add(this, 'radius', 5, 50);
+                // gui.add(this, 'node_count', 50, 500);
+                gui.add(this, 'offset', 50, 500);
+
+            var controller = gui.add(this, 'node_count', 50, 300);
+
+                controller.onChange(function(value) {
+
+                });
+
+                controller.onFinishChange(function(value) {
+                    // console.log(value);
+                    node.remove();
+                    edge.remove();
+                    // network.init();
+                });
+
+            
+        };
+
+
 
 
     </script>
