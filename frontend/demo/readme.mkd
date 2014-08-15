@@ -1,0 +1,18 @@
+Proof of concept line graph implemented using d3.js and some jQuery that [builds on](http://bl.ocks.org/1148374) [previous](http://bl.ocks.org/2579619) [examples](http://bl.ocks.org/2580640).
+
+The top graph is 24 hours of data in 2 minute increments. I have it rolling every 2 seconds to simulate live updating. In real-life it would only update every 2 minutes to match the data granularity.
+
+See it running at [http://bl.ocks.org/2657838](http://bl.ocks.org/2657838)
+
+Features:
+
+* incrementally update data or replace entire dataset
+* interactive mouseover to view details
+* animated switching of y-axis scale types (linear, power, log)
+* dynamic redrawing on window resize
+
+Missing:
+
+* not yet integrated with touch events, only mouse
+
+I don't normally work in javascript, so if it isn't quite right, I'd appreciate suggestions on where to improve it.
