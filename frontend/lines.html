@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Space</title>
+    <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="libs/paper-full.js"></script>
+    <script src="libs/stats.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    <script type="text/paperscript" canvas="canvas">
+
+    window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+     
+    var socket, ldrData = [], values, paths;
+
+    tool.fixedDistance = 30;
+
+    values = {
+        lines: 5,
+        size: 40,
+        smooth: true
+    };
+
+
+    function onMouseDown(event) {
+        paths = [];
+        for (var i = 0; i < values.lines; i++) {
+            var path = new Path();
+            path.strokeColor = '#FFFFFF';
+            paths.push(path);
+        }
+    }
+
+    function onMouseDrag(event) {
+        var offset = event.delta;
+        offset.angle = offset.angle + 90;
+        var lineSize = values.size / values.lines;
+        for (var i = 0; i < values.lines; i++) {
+            var path = paths[values.lines - 1 - i];
+            offset.length = lineSize * i + lineSize / 2;
+            path.add(event.middlePoint + offset);
+            path.smooth();
+        }
+    }
+
+    socket = io.connect('//localhost:3000');
+
+    socket.on('message', function (ldrSensor) {
+
+        paths = [];
+
+        if (ldrSensor.split(",")[0] === "/sensor_3"){
+            ldrData = ldrSensor.split(",")[1];
+
+
+            var offset = event.delta;
+            offset.angle = offset.angle + 90;
+            var lineSize = values.size / values.lines;
+
+            
+            paths = [];
+            for (var i = 0; i < values.lines; i++) {
+                var path = new Path();
+                path.strokeColor = '#FFFFFF';
+                paths.push(path);
+            }
+
+            // console.log(ldrData);
+        }
+
+    });
+
+
+    </script>
+</head>
+<body>
+    <canvas id="canvas" resize hidpi="off" style="background:black"></canvas>
+</body>
+</html>

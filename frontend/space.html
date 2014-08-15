@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Space</title>
+    <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="libs/paper-full.js"></script>
+    <script src="libs/stats.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    <script type="text/paperscript" canvas="canvas">
+     var socket,
+            ldrData = [];
+
+
+        socket = io.connect('//localhost:3000');
+
+        socket.on('message', function (ldrSensor) {
+
+            if (ldrSensor.split(",")[0] === "/sensor_3"){
+                ldrData = ldrSensor.split(",")[1];
+                
+                // colorScale = d3.scale.linear().domain([0, ldrMax]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
+
+                // console.log(ldrData);
+
+                // graph
+                // .datum(ldrData)
+                // .transition()
+                // .style('background-color',function(d) { return colorScale(d); });
+
+                var center = Point.random() * view.size;
+                var scale = ldrData / 20;
+                var path = new Shape.Circle(center, scale);
+                path.data.vector = new Point({
+                    angle: Math.random() * 360,
+                    length : scale * Math.random() / 5
+                });
+                
+                var vector = new Point({
+                    angle: 45,
+                    length: 0
+                });
+
+
+            }
+
+        });
+
+    // The amount of symbol we want to place;
+    var count = 5;
+
+    project.currentStyle = {
+        fillColor: 'white'
+    };
+
+    // Place the instances of the symbol:
+    // for (var i = 0; i < count; i++) {
+    //     // The center position is a random point in the view:
+    //     var center = Point.random() * view.size;
+    //     var scale = (i + 1) / count;
+    //     var path = new Shape.Circle(center, 50 * scale);
+    //     path.data.vector = new Point({
+    //         angle: Math.random() * 360,
+    //         length : scale * Math.random() / 5
+    //     });
+    // }
+
+
+
+    var mouseVector = vector.clone();
+
+    function onMouseMove(event) {
+        mouseVector = view.center - event.point;
+    }
+
+    // The onFrame function is called up to 60 times a second:
+    function onFrame(event) {
+        vector = vector + (mouseVector - vector) / 10;
+
+        // Run through the active layer's children list and change
+        // the position of the placed symbols:
+        for (var i = 0; i < count; i++) {
+            var item = project.activeLayer.children[i];
+            var size = item.bounds.size;
+            var length = vector.length / 10 * size.width / 10;
+            item.position += vector.normalize(length) + item.data.vector;
+            keepInView(item);
+        }
+    }
+
+    function keepInView(item) {
+        var position = item.position;
+        var itemBounds = item.bounds;
+        var bounds = view.bounds;
+        if (itemBounds.left > bounds.width) {
+            position.x = -item.bounds.width;
+        }
+
+        if (position.x < -itemBounds.width) {
+            position.x = bounds.width + itemBounds.width;
+        }
+
+        if (itemBounds.top > view.size.height) {
+            position.y = -itemBounds.height;
+        }
+
+        if (position.y < -itemBounds.height) {
+            position.y = bounds.height  + itemBounds.height / 5;
+        }
+    }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" resize hidpi="off" style="background:black"></canvas>
+</body>
+</html>
