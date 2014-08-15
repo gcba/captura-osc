@@ -1,7 +1,7 @@
 var socket = io.connect('//localhost:3000');
-var MIN = 1; // valor MINIMO del sensor
+var MIN = 1;    // valor MINIMO del sensor
 var MAX = 4000; // valor MAXIMO del sensor
-var max = MAX; // var: maximo de escala normal
+var max = MAX;  // var: maximo de escala normal
 
 //vars del gráfico
 var width = $(window).width();

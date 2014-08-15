@@ -38,6 +38,17 @@ Envío datos:
 * Librería Arduino: ya viene con la versión de Processing 2.0.3
 
 
+### Estructura de carpetas
+
+arduino/
+Codigo del arduino
+
+backend/
+Establece una concexión entre la placa Arduino por [OSC](http://opensoundcontrol.org/introduction-osc) y [Node.js](http://nodejs.org/) usando [socket.io](http://socket.io/).
+
+frontend/
+Muestra los valores de los sensores.
+
 ### Uso
 
 - Instalar, por primera vez, desde la carpeta `backend` las dependecias de node para node-osc y socket.io 
