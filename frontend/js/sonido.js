@@ -6,12 +6,12 @@ var max = MAX;  // var: maximo de escala normal
 //vars del gráfico
 var width = $(window).width();
 var height = $(window).height();
-var n = 50, // cantidad de ticks en X
+var n = 5, // cantidad de ticks en X
     data = d3.range(n);
 var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
 var x = d3.scale.linear()
-    .domain([ 1 , n - 2 ])
+    .domain([ 1 , n-2 ])
     .range([ 0 , width ]);
 
 var y = d3.scale.linear()
@@ -19,7 +19,7 @@ var y = d3.scale.linear()
     .range([ 0 , height ]);
 
 var line = d3.svg.line()
-    .interpolate("basis")
+    .interpolate("monotone")
     .x(function(d, i) { return x(i); })
     .y(function(d, i) { return y(d); });
 
