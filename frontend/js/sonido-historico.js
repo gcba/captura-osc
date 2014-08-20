@@ -1,14 +1,16 @@
 var socket = io.connect('//localhost:3000');
-var MIN = 1;    // valor MINIMO del sensor
-var MAX = 500; // valor MAXIMO del sensor
-var max = MAX;  // var: maximo de escala normal
-var valores = [0,0,0,0];
 
+var MIN = 0;   // valor MINIMO del sensor
+var MAX = 120;  // valor MAXIMO del sensor
+var max = MAX;  // var: maximo de escala normal
+
+var valores = [0,0,0,0];
 
 var margin = {top: 20, right: 0, bottom: 150, left: 0};
 //vars del gráfico
-var width = $('#fiebre').width();
-var height = $('#fiebre').height();;
+var width = $('#fiebre-sonido').width();
+var height = $('#fiebre-sonido').height();
+
 var n = 100, // cantidad de ticks en X
     data = d3.range(n);
 var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -18,15 +20,15 @@ var x = d3.scale.linear()
     .range([ 0 , width ]);
 
 var y = d3.scale.linear()
-    .domain([ MIN , max ])
-    .range([ height , 0  ]);
+    .domain([ max, MIN ])
+    .range([ 0 , height  ]);
 
 var line = d3.svg.line()
     .interpolate("basis")
     .x(function(d, i) { return x(i); })
     .y(function(d, i) { return y(d); });
 
-var svg = d3.select("#fiebre").append("svg")
+var svg = d3.select("#fiebre-sonido").append("svg")
     .attr("width", '100%')
     .attr("height", '100%')
     .attr('viewBox','-40 -15 '+(width-margin.left) +' '+(height-margin.bottom) )
@@ -65,24 +67,26 @@ socket.on('message', function (message) {
 
 setInterval(
     function(){
-        if (max < valores[3] ){
-            max = valores[3] ;
+        if (max < valores[2] ){
+            max = valores[2] ;
         } else {
             if ( max >= MAX) {
                 max--;
             }
             //actualizo eje Y con el nuevo máximo
-            y = d3.scale.linear()
-                .domain([ max , MIN ])
-                .range([ 0 , height ]);
+            // y = d3.scale.linear()
+            //     .domain([ MIN , max ])
+            //     .range([ height, 0 ]);
+
+
 
             //call sin transicion porque va tan rapido que se pierde
             svg.select(".y")
                 .call(d3.svg.axis().scale(y).orient("left"));
-        }
+            }
 
-        var rango = d3.scale.linear().domain([ max , MIN ]).range([ max , 0.2 ]);
-        data.push(rango ( valores[3] ) );
+        var rango = d3.scale.linear().domain([ MIN, max  ]).range([ 0.2 , max  ]);
+        data.push(rango ( valores[2] ) );
 
         // redibuja y corre la linea
         path
@@ -99,7 +103,7 @@ setInterval(
         svg.select("text")
             .text(
                 function () {
-                    return ( valores[3] + " lm");
+                    return ( valores[2] + " db");
             });
         }
 ,280);
