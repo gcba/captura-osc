@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Tablero de control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <script src='http://localhost:3000/socket.io/socket.io.js' type="text/javascript" charset="utf-8"></script>
+    <script src='libs/jquery-1.11.1.min.js' type="text/javascript" charset="utf-8"></script>
+    <style>
+
+        html, body{
+            width: 100%; 
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            text-rendering: optimizeLegibility;
+        }
+
+        a {
+            text-decoration: none;
+            border: 0px none;
+            cursor: pointer;
+            display: inline-block;
+            line-height: 1;
+            background-color: #FFFFFF;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border-radius: 4px;
+            box-shadow: 0px -1px #BBBFC2 inset;
+            color: #4D4E53;
+            width: 90%;
+            height: 90%;
+        }
+
+        a:hover {
+            background-color: #ffff00;
+        }
+
+        .titular{
+            width: 100%; 
+        }
+
+        h1{
+            font-size: 48px;
+            text-align: center;
+            line-height: 1px;
+        }
+
+        h2{
+            font-size: 18px;
+            text-align: center;
+            line-height: 0px;
+        }
+
+        .sensor{
+            display: inline-block;
+            width: 20%;
+            height: 100px;
+        }
+
+        .katt{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="titular">
+        <h1>
+            Tablero de Control
+        </h1>
+        <h2>
+            Haga <strong>clic</strong> sobre un <strong>icono</strong> para ver el gráfico
+        </h2>
+    </div>
+
+    <div id="tablero">
+        <div class="sensor">
+            <a href="sensor-luz.html"> <img src="img/luz.png" height="70" width="70"> <br> <span id="luz"> s/d </span> </a>
+        </div>
+        <div class="sensor">
+            <a href="sensor-sonido.html"> <img src="img/sonido.png" height="70" width="70"> <br> <span id="sonido">s/d</span></a>
+        </div>
+        <div class="sensor">
+            <a href="sensor-temperatura.html"> <img src="img/temperatura.png" height="70" width="70"> <br> <span id="temperatura">s/d</span></a>
+        </div>
+        <div class="sensor">
+            <a href="sensor-humedad.html"> <img src="img/humedad.png" height="70" width="70"> <br> <span id="humedad">s/d</span></a>
+        </div>
+    </div>
+
+
+    <script>
+        var socket = io.connect('//localhost:3000');
+
+        socket.on('message', function (message) {
+            switch (message.split(",")[0]) {
+                case "/sensor_0":
+                    $("#temperatura").html(message.split(",")[1]);
+                    break;
+                case "/sensor_1":
+                    $("#humedad").html(message.split(",")[1]);
+                    break;
+                case "/sensor_2":
+                    $("#sonido").html(message.split(",")[1]);
+                    break;
+                case "/sensor_3":
+                    $("#luz").html(message.split(",")[1]);
+                    break;
+            }
+        });
+    </script>
+
+    <img class="katt" alt="katt" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA1lpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0iM0M4QTZGMzY0ODgxQTQ3RkQwRjdBRkFENjQwREYwMEMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODA0MkQzNjcyNDlEMTFFNDk5RDdCODc1RTkyRTJDM0YiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODA0MkQzNjYyNDlEMTFFNDk5RDdCODc1RTkyRTJDM0YiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjIxMWI4NWNiLWI4ZWYtZDE0NC04MGEwLTM2ODZkYzRkOTU2YiIgc3RSZWY6ZG9jdW1lbnRJRD0iM0M4QTZGMzY0ODgxQTQ3RkQwRjdBRkFENjQwREYwMEMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7yvFyMAAAAuUlEQVR42pRSwQ6DIAwtWj1x42T//9tIuHjzIiCjzG7icG4vIWlaeH2vBRCRUkpwdw6gbts2MMYQ/IbnPa116dT3Pd10EmLCZVlKFEKwSqlSmKYJnHOwk3GN01ba4VFvju2Vrkz4irsM+BdlEAL21bo0DEOVr9rEGJvyvPdVHq+Yd/NNn93JLAkze5UH4zhW8jCzVtOTh434TZ4ZiYfxbdxHJbw3JXvirzTPM/thebDLgnVdP/b4EGAACaKL49Zk3gQAAAAASUVORK5CYII=" />
+
+</body>
+</html>
