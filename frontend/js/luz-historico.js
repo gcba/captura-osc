@@ -28,7 +28,7 @@ var svg = d3.select("#fiebre").append("svg")
     .attr("width", '100%')
     .attr("height", '100%')
     .attr('viewBox','-50 0 '+Math.max(width,height) +' '+Math.min(width,height) )
-    .attr('preserveAspectRatio','xMidYMid') //none para streched
+    // .attr('preserveAspectRatio','xMidYMid') //none para streched
     .append("g")
     .attr("transform", "translate(" + Math.min(width,height) /1000 + "," + Math.min(height,width) /1000 + ")");
 
@@ -100,6 +100,4 @@ setInterval(
                     return ( valores[3] + " lm");
             });
         }
-,
-
-1000);
+,280);
