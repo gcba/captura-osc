@@ -34,6 +34,18 @@ g {
 
 .axis {
     fill: none;
-    stroke: #000;
+    /*stroke: #eaeaea;*/
     shape-rendering: crispEdges;
+}
+
+.tick line {
+    stroke: #555;
+}
+
+.tick text {
+    fill: #000;
+}
+
+.numberLight, .numberSound {
+    font-size: 3em;
 }
