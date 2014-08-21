@@ -1,9 +1,10 @@
-var socket, valores, margin, width, height, n, margin;
+var socket, valores, margin, width, height, n, margin, bkg, colorScale;
 var xSound, ySound, yAxisSound, lineSound, svgSound, pathSound, rangeSound, dataSound, textSound;
 var xLight, yLight, yAxisLight, lineLight, svgLight, pathLight, rangeLight, dataLight, textLight;
 
 socket = io.connect('//localhost:3000');
 
+    bkg = d3.select("body");
 
     valores = [0,0,0,0];
 
@@ -13,8 +14,10 @@ socket = io.connect('//localhost:3000');
     dataSound = d3.range(n),
     dataLight = d3.range(n);
 
-    width = $('#fiebre-sonido').width() - margin.left - margin.right;
-    height = $('#fiebre-sonido').height() - margin.top - margin.bottom;
+    width = $('.fiebre').width() - margin.left - margin.right;
+    height = $('.fiebre').height() - margin.top - margin.bottom;
+
+    console.log(height);
 
 var MINSound, MAXSound, maxSound;
 
@@ -169,6 +172,14 @@ setInterval(
                 .call(yAxisLight);
         }
 
+        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
+
+        // console.log(dataLight);
+
+        bkg.datum(valores[3])
+        .transition(5000)
+        .style('background-color',function(d) { return colorScale(d); });
+
         rangeLight = d3.scale.linear().domain([ MINLight, maxLight ]).range([ 0.2 , maxLight  ]);
         dataLight.push(rangeLight ( valores[3] ) );
 
@@ -228,3 +239,13 @@ setInterval(
             });
         }
 ,280);
+
+function arcTween(transition, newAngle) {
+  transition.attrTween("d", function(d) {
+    interpolate = d3.interpolate(d.endAngle, newAngle);
+    return function(t) {
+      d.endAngle = interpolate(t);
+      return arc(d);
+    };
+  });
+}
