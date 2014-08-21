@@ -91,13 +91,13 @@ int elapsedTime=15000;
 void setup() {
   size(150, 150);
   println(Serial.list());
-  port=new Serial(this, Serial.list()[1], 115200 );
+  port=new Serial(this, Serial.list()[4], 115200 );
   port.clear();
   serial=port.readStringUntil(end);
   serial=null;
 
   //Inicializo el array del estado de sensores
-  for (int i=0; i<flags.length;i++) {
+  for (int i=0; i<flags.length; i++) {
     flags[i]=false;
   }
 
@@ -118,7 +118,7 @@ void setup() {
 
 void draw() {
   background(100, 80, 200);
- // frame.setLocation(5, 10);
+  // frame.setLocation(5, 10);
   ellipseMode(CENTER);
   smooth();
   noStroke();
@@ -133,11 +133,11 @@ void draw() {
   if (serial != null) {
     String[]arduino=split(serial, ',');
 
-    for (int i=0;i<m.length;i++) {
- m [i] = Integer.parseInt(arduino[i]);
+    for (int i=0; i<m.length; i++) {
+      m [i] = Integer.parseInt(arduino[i]);
       //Declaro los tags de los mensajes OSC
       println("sensor "+i+":"+m[i]);
-     
+
       OscMessage myMessage0 = new OscMessage("/sensor_0");
       myMessage0.add(m[0]);
       oscP5.send(myMessage0, myRemoteLocation);
@@ -155,6 +155,5 @@ void draw() {
       oscP5.send(myMessage3, myRemoteLocation);
     }
   }
-
 }
 
