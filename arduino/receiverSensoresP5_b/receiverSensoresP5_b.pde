@@ -96,11 +96,7 @@ int elapsedTime=15000;
 void setup() {
   size(150, 150);
   println(Serial.list());
-<<<<<<< HEAD
   port=new Serial(this, Serial.list()[4], 115200 );
-=======
-  port=new Serial(this, Serial.list()[0], 115200 );
->>>>>>> 7c984a98cca5d711249ec21bba3d7bceba31ce99
   port.clear();
   serial=port.readStringUntil(end);
   serial=null;
