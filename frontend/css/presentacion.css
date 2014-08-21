@@ -106,7 +106,7 @@ g {
     
 }
 
-.degree {
+.degree, .percent {
     font-size: 15em;
 }
 
