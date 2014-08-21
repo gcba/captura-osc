@@ -1,4 +1,4 @@
-/**
+    /**
 * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
 * http://www.cssportal.com
 */
@@ -47,25 +47,30 @@ table {
 }
 
 html, body{
+    font-family: "Nexa Light", "Helvetica";
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0 auto;
-    background-color: #f2f2f2;
     overflow: hidden;
 }
 
 svg {
-    font: 5em Arial, sans-serif;
+    font: 5em Helvetica, Arial, sans-serif;
 }
 
 g {
-	font: 10px Arial, sans-serif;
+	font: 10px Helvetica, Arial, sans-serif;
 }
 
 .arco{
     width: 100%;
     height: 384px;
+}
+
+.logo {
+    background: url(../img/logo.png) no-repeat;
+    background-position: center center;
 }
 
 .fiebre {
@@ -108,6 +113,7 @@ g {
 
 .degree, .percent {
     font-size: 15em;
+    letter-spacing: -0.08em;
 }
 
 #wrapper {
@@ -123,7 +129,6 @@ g {
 }
 
 #content {
-    background: #FFFFFF;
     margin-left: 400px;
 }
 

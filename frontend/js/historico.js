@@ -141,8 +141,8 @@ textSound = svgSound.append("text")
 
 
 // Temperatura
-widthArcs = $('.arco').width()+150;
-heightArcs = $('.arco').height()+150;
+widthArcs = $('.arco').width()+190;
+heightArcs = $('.arco').height()+190;
 
 MINTemp = 0;    // valor MINIMO del sensor
 MAXTemp = 40;   // valor MAXIMO del sensor
@@ -174,7 +174,7 @@ textTemp = svgTemp.append("text")
     .text("0°")
     .attr("class", "degree")
     .attr("dy", 45)
-    .attr("dx", 25)
+    .attr("dx", 16)
     .style("text-anchor","middle");
 
 
@@ -218,12 +218,12 @@ setInterval(
                 .call(yAxisLight);
         }
 
-        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
+        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#7f7f7f","#dddddd"]);
 
         // console.log(dataLight);
 
         bkg.datum(valores[3])
-        .transition(5000)
+        .transition()
         .style('background-color',function(d) { return colorScale(d); });
 
         rangeLight = d3.scale.linear().domain([ MINLight, maxLight ]).range([ 0.2 , maxLight  ]);
