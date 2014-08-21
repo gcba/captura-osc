@@ -57,6 +57,7 @@ html, body{
 
 svg {
     font: 5em Helvetica, Arial, sans-serif;
+    fill: white;
 }
 
 g {
@@ -81,7 +82,7 @@ g {
 
 .line {
     fill: none;
-    stroke: #333333;
+    stroke: white;
     stroke-width: 10px;
 }
 
@@ -92,11 +93,12 @@ g {
 }
 
 .tick line {
-    stroke: #555;
+    stroke: #fff;
+    opacity: 0.2;
 }
 
 .tick text {
-    fill: #000;
+    fill: #fff;
 }
 
 .numberLight, .numberSound {

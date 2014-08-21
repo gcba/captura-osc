@@ -163,6 +163,7 @@ svgTemp = d3.select("#arcTemp").append("svg")
 bkgTemp = svgTemp.append("path")
     .datum({endAngle: pi})
     .style("fill", "#ffffff")
+    .style("opacity", "0.2")
     .attr("d", getArcTemp);
 
 // Añado el arco de color
@@ -218,7 +219,7 @@ setInterval(
                 .call(yAxisLight);
         }
 
-        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#7f7f7f","#dddddd"]);
+        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#7f7f7f","red"]);
 
         // console.log(dataLight);
 
