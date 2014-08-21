@@ -1,6 +1,6 @@
 var socket, valores, margin, width, height, n, margin, bkg, colorScale;
-var xSound, ySound, yAxisSound, lineSound, svgSound, pathSound, rangeSound, dataSound, textSound;
-var xLight, yLight, yAxisLight, lineLight, svgLight, pathLight, rangeLight, dataLight, textLight;
+var xSound, ySound, yAxisSound, lineSound, svgSound, pathSound, rangeSound, dataSound, textSound, MINSound, MAXSound, maxSound;
+var xLight, yLight, yAxisLight, lineLight, svgLight, pathLight, rangeLight, dataLight, textLight, MINLight, MAXLight, maxLight;
 
 socket = io.connect('//localhost:3000');
 
@@ -19,18 +19,10 @@ socket = io.connect('//localhost:3000');
 
     console.log(height);
 
-var MINSound, MAXSound, maxSound;
-
-
-
     MINSound = 0;   // valor Minimo del sensor de sonido
     MAXSound = 140;  // valor Maximo del sensor de sonido
     maxSound = MAXSound;  // var: Maximo de escala normal de sonido
-                          
-
-var MINLight, MAXLight, maxLight;
-
-
+                        
     MINLight = 1;   // valor Minimo del sensor de sonido
     MAXLight = 500;  // valor Maximo del sensor de sonido
     maxLight = MAXLight;  // var: Maximo de escala normal de sonido

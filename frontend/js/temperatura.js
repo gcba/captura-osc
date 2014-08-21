@@ -1,53 +1,47 @@
-var socket, valores, MIN, MAX, width, height, pi, arc, svg, fondo, arco, rango, interpolate, colorScale;
+var socket, valores, width, height, pi, arc, interpolate;
+var MINTemp, MAXTemp, svgTemp, arcTemp, backgroundTemp, rangeTemp, colorScaleTemp, textTemp;
+var MINHum, MAXHum, svgHum, arcHum, backgroundHum, rangeHum, colorScaleHum, textHum;
 
 socket = io.connect('//localhost:3000');
 
 valores = [0,0,0,0];
 
-margin = {top: 20, right: 0, bottom: 20, left: 0};
+widthArcs = $('.arco').width()+150;
+heightArcs = $('.arco').height()+150;
 
-MIN = 0;    // valor MINIMO del sensor
-MAX = 40;   // valor MAXIMO del sensor
+MINTemp = 0;    // valor MINIMO del sensor
+MAXTemp = 40;   // valor MAXIMO del sensor
 
-width = $('.arco').width()+120;
-height = $('.arco').height()+120;
-
-console.log(width,height);
 pi = 2 * Math.PI; 
 
-arc = d3.svg.arc()
-    .innerRadius(170)
-    .outerRadius(200)
-    .startAngle(0);
+arc = d3.svg.arc().innerRadius(170).outerRadius(200).startAngle(0);
 
-colorScale = d3.scale.linear().domain([MIN, MAX]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
+colorScaleTemp = d3.scale.linear().domain([MINTemp, MAXTemp]).range(["#2F004B", "#554B80", "#BFA1B4", "#E6CA94","#FFF288"]);
 
-svg = d3.select("#arco").append("svg")
+svgTemp = d3.select("#arcTemp").append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
-    .attr('viewBox','0 0 '+(width) +' '+(height) )
-    // .attr('preserveAspectRatio','xMidYMid') //none para streched
+    .attr('viewBox','0 0 '+(widthArcs) +' '+(heightArcs) )
     .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-
-d3.select("svg")
-    .append("text")
-    .text("0°")
-    .attr("class", "degree")
-    .attr("transform", "translate(" + (width+20) / 2 + "," + (height+50) / 2 + ")")
-    .style("text-anchor","middle" );
-
+    .attr("transform", "translate(" + widthArcs / 2 + "," + heightArcs / 2 + ")")
 
 // Añado el arco del fondo
-fondo = svg.append("path")
+backgroundTemp = svgTemp.append("path")
     .datum({endAngle: pi})
     .style("fill", "#ffffff")
     .attr("d", arc);
 
 // Añado el arco de color
-arco = svg.append("path")
+arcTemp = svgTemp.append("path")
     .datum({endAngle: 0 * pi})
     .attr("d", arc);
+
+textTemp = svgTemp.append("text")
+    .text("0°")
+    .attr("class", "degree")
+    .attr("dy", 45)
+    .attr("dx", 25)
+    .style("text-anchor","middle");
 
 // oigo el mensaje del Arduino y cambio el valor del ángulo
 socket.on('message', function (message) {
@@ -58,21 +52,19 @@ socket.on('message', function (message) {
 
 setInterval(
     function(){
-        console.log(valores[0]);
 
-    // /sensor_0: temperatura
-            d3.select("text")
+            svgTemp.select('.degree')
                 .text(function () {
                     return (valores[0] + "°");
                 });
 
-            rango = d3.scale.linear().domain([ MIN , MAX ]).range([  0 , pi ]);
+            rangeTemp = d3.scale.linear().domain([ MINTemp , MAXTemp ]).range([  0 , pi ]);
 
-            arco.transition()
+            arcTemp.transition()
                 .duration(500)
                 .ease("linear")
-                .style('fill',function(d) { return colorScale(d); })
-                .call(arcTween, rango ( valores[0] ) );
+                .style('fill',function(d) { return colorScaleTemp(d); })
+                .call(arcTween, rangeTemp ( valores[0] ) );
                 
 
           // 

@@ -106,6 +106,10 @@ g {
     
 }
 
+.degree {
+    font-size: 15em;
+}
+
 #wrapper {
     width: 100%;
     min-width: 1200px;
@@ -125,7 +129,6 @@ g {
 
 #leftcolumn {
     float: left;
-    background: #CC33FF;
     width: 400px;
     margin-left: -100%;
 }
