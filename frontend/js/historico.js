@@ -37,7 +37,7 @@ xLight = d3.scale.linear()
 
 yLight = d3.scale.linear()
     .domain([ MINLight, maxLight ])
-    .range([ 0,height ]);
+    .range([ height, 0 ]);
 
 yAxisLight = d3.svg.axis()
     .scale(yLight)
@@ -203,28 +203,29 @@ setInterval(
 
 
 
-        if (maxLight < valores[3] ){
+        if (MAXLight < valores[3] ){
             maxLight = valores[3] ;
         } else {
             if (maxLight >= MAXLight) {
                 maxLight--;
             }
+
             // actualizo eje Y con el nuevo máximo
             yLight = d3.scale.linear()
-                .domain([ maxLight,MINLight ])
-                .range([ 0, height ]);
+                .domain([ MINLight, maxLight ])
+                .range([ height, 0 ]);
 
             //call sin transicion porque va tan rapido que se pierde
             svgLight.select(".y")
                 .call(yAxisLight);
         }
 
-        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#7f7f7f","red"]);
+        colorScale = d3.scale.linear().domain([MINLight, maxLight]).range(["#7f7f7f","#5FCC00","#14A3CC","#FF004E"]);
 
         // console.log(dataLight);
 
         bkg.datum(valores[3])
-        .transition()
+        .transition(500)
         .style('background-color',function(d) { return colorScale(d); });
 
         rangeLight = d3.scale.linear().domain([ MINLight, maxLight ]).range([ 0.2 , maxLight  ]);
