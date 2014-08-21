@@ -1,4 +1,9 @@
+var socket, valores, widthArcs, heightArcs, pi, interpolate;
+var MINTemp, MAXTemp, svgTemp, getArcTemp, arcTemp, bkgTemp, rangeTemp, colorScaleTemp, textTemp;
 
+socket = io.connect('//localhost:3000');
+
+valores = [0,0,0,0];
 
 widthArcs = $('.arco').width()+150;
 heightArcs = $('.arco').height()+150;
