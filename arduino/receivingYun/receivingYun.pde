@@ -94,7 +94,9 @@ void setup() {
 
 
 void draw() {
-  background(255, 22, 100);
+  background(50, 200, 50);
+  textSize(12);
+  text("Conexión ok", 10, height-10);
   byte[] tmp=new byte[1024];
 
 
@@ -154,7 +156,7 @@ void draw() {
           myMessageH.add(Integer.parseInt(parseado));
           oscP5.send(myMessageH, myRemoteLocation);
 
-           println("      Hum: "+parseado);
+          println("      Hum: "+parseado);
         }
 
         else if (str(recibido.charAt(0)).equals(headerN)) {
@@ -173,7 +175,7 @@ void draw() {
 
           myMessageN.add(Integer.parseInt(parseado));
           oscP5.send(myMessageN, myRemoteLocation);
-            println("      Noise: "+parseado);
+          println("      Noise: "+parseado);
         }
 
         else if (str(recibido.charAt(0)).equals(headerL)) {
